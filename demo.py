@@ -11,28 +11,25 @@ except FileNotFoundError:
 except Exception as e:
     st.error(f"An error occurred: {e}")
 import pandas as pd
-import matplotlib.pyplot as plt
+import streamlit as st
+import plotly.express as px
 
-# ... (your existing code) ...
-
+# Assuming the file is in the current working directory.
+# If not, provide the full path to the file.
 try:
     df = pd.read_excel("SalidaFinal.xlsx", engine='openpyxl')
 
-    # Assuming 'Region' and 'Sales' are column names in your DataFrame
-    sales_by_region = df.groupby('Region')['Sales'].sum()
+    # Check if 'Region' and 'Ventas' columns exist
+    if 'Region' not in df.columns or 'Sales' not in df.columns:
+        st.error("Error: The DataFrame does not contain 'Region' and/or 'Sales' columns.")
+    else:
+        # Create the bar chart using Plotly Express
+        fig = px.bar(df, x='Region', y='Sales', title='Ventas por Región')
 
-    plt.figure(figsize=(10, 6))
-    sales_by_region.plot(kind='bar')
-    plt.title('Sales by Region')
-    plt.xlabel('Region')
-    plt.ylabel('Total Sales')
-    plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better readability
-    st.pyplot(plt)
-
+        # Display the chart in Streamlit
+        st.plotly_chart(fig)
 
 except FileNotFoundError:
     st.error("Error: 'SalidaFinal.xlsx' not found. Please check the file path.")
-except KeyError:
-    st.error("Error: 'Region' or 'Sales' column not found in the DataFrame.")
 except Exception as e:
     st.error(f"An error occurred: {e}")
