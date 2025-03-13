@@ -28,17 +28,24 @@ try:
 
         # Display the chart in Streamlit
         st.plotly_chart(fig)
-    df = pd.read_excel("SalidaFinal.xlsx", engine='openpyxl')
-except FileNotFoundError:
-    st.error("Error: 'SalidaFinal.xlsx' not found. Please check the file path.")
-    st.stop() # Stop execution if the file is not found
-except Exception as e:
-    st.error(f"An error occurred: {e}")
-    st.stop()
+    # Filtro por Región
+region_filter = st.selectbox("Selecciona una región:", df['Region'].unique())
+filtered_df = df[df['Region'] == region_filter]
 
-# Create filters
-region_filter = st.selectbox("Select Region", df['Region'].unique())
-state_filter = st.selectbox("Select State", df['State'].unique())
 
-# Apply filters and display the result
-filtered_df = df[(df['Region'] == region_filter) & (df['State'] == state_filter)]
+# Filtro por Estado basado en la selección de Región
+if not filtered_df.empty: #Check if the filtered df is not empty
+    state_filter = st.selectbox("Selecciona un estado:", filtered_df['State'].unique())
+    filtered_df = filtered_df[filtered_df['State'] == state_filter]
+else:
+    st.warning("No hay datos para la región seleccionada.")
+
+# Mostrar el DataFrame filtrado
+st.write(filtered_df)
+
+
+# Gráfica de pastel por categoría
+if 'Category' in df.columns:  # Check if the 'Category' column exists
+    if not filtered_df.empty:
+      fig = px.pie(filtered_df, names='Category', title='Distribución por Categoría')
+      st.plotly_chart(fig)
