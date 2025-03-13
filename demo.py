@@ -28,20 +28,17 @@ try:
 
         # Display the chart in Streamlit
         st.plotly_chart(fig)
-    # Create a filter for the 'Region' column
-region_filter = st.selectbox("Select Region", df['Region'].unique)
+# prompt: usando el dataframe df, crear un filtro con la columna Region, y dentro de ese filtro crear otro filtro con la columna State
 
-# Filter the dataframe based on the selected region
-filtered_df = df[df['Region'] == region_filter]
+# Assuming 'Region' and 'State' are column names in your DataFrame.
+# Replace with your actual column names if different.
+if 'Region' in df.columns and 'State' in df.columns:
+    region_filter = st.selectbox("Select Region", df['Region'].unique())
+    filtered_df_region = df[df['Region'] == region_filter]
 
-# Create a second filter for the 'State' column using the filtered dataframe
-if not filtered_df.empty: # Check if the filtered dataframe is not empty
-    state_filter = st.selectbox("Select State", filtered_df['State'].unique())
-    # Filter the dataframe again based on the selected state
-    filtered_df = filtered_df[filtered_df['State'] == state_filter]
+    state_filter = st.selectbox("Select State", filtered_df_region['State'].unique())
+    filtered_df_state = filtered_df_region[filtered_df_region['State'] == state_filter]
 
-# Create the pie chart
-if not filtered_df.empty: #Check if the filtered dataframe is not empty
-    if 'Category' in filtered_df.columns: # Check if the 'Category' column exists
-        fig = px.pie(filtered_df, names='Category', title='Category Distribution')
-        st.plotly_chart(fig)
+    st.write(filtered_df_state)
+else:
+    st.error("Error: 'Region' or 'State' column not found in the DataFrame.")
