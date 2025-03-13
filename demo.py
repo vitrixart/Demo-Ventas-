@@ -29,7 +29,7 @@ try:
         # Display the chart in Streamlit
         st.plotly_chart(fig)
     # Create a filter for the 'Region' column
-region_filter = st.selectbox("Select Region", df['Region'].unique())
+region_filter = st.selectbox("Select Region", df['Region'].unique)
 
 # Filter the dataframe based on the selected region
 filtered_df = df[df['Region'] == region_filter]
