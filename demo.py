@@ -28,16 +28,31 @@ try:
 
         # Display the chart in Streamlit
         st.plotly_chart(fig)
-# prompt: usando el dataframe df, crear un filtro con la columna Region, y dentro de ese filtro crear otro filtro con la columna State
+    import pandas as pd
+import streamlit as st
+import plotly.express as px
 
-# Assuming 'Region' and 'State' are column names in your DataFrame.
-# Replace with your actual column names if different.
-if 'Region' in df.columns and 'State' in df.columns:region_filter = st.selectbox("Select Region", df['Region'].unique(finally))
-    filtered_df_region = df[df['Region'] == region_filter]
+# Load the dataframe (assuming it's already loaded as 'df')
+try:
+    df = pd.read_excel("SalidaFinal.xlsx", engine='openpyxl')
+except FileNotFoundError:
+    st.error("Error: 'SalidaFinal.xlsx' not found. Please check the file path.")
+    st.stop() # Stop execution if the file is not found
+except Exception as e:
+    st.error(f"An error occurred: {e}")
+    st.stop()
 
-    state_filter = st.selectbox("Select State", filtered_df_region['State'].unique())
-    filtered_df_state = filtered_df_region[filtered_df_region['State'] == state_filter]
+# Create a filter for the 'Region' column
+selected_region = st.selectbox("Select Region", df['Region'].unique())
+df_filtered = df[df['Region'] == selected_region]
 
-    st.write(filtered_df_state)
-else:
-    st.error("Error: 'Region' or 'State' column not found in the DataFrame.")
+# Create a second filter for 'State' based on the selected region
+if not df_filtered.empty: # Check if df_filtered is not empty
+    selected_state = st.selectbox("Select State", df_filtered['State'].unique())
+    df_final = df_filtered[df_filtered['State'] == selected_state]
+
+    # Check if 'Category' column exists
+    if 'Category' in df_final.columns:
+        # Create a pie chart for 'Category'
+        fig = px.pie(df_final, names='Category', title='Category Distribution')
+        st.plotly_chart(fig)
