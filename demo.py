@@ -28,3 +28,15 @@ try:
 
         # Display the chart in Streamlit
         st.plotly_chart(fig)
+# Create filters for 'Region' and 'State'
+    selected_region = st.selectbox('Select Region', df['Region'].unique())
+    selected_state = st.selectbox('Select State', df['State'].unique())
+
+    # Filter the DataFrame based on selected region and state
+    filtered_df = df[(df['Region'] == selected_region) & (df['State'] == selected_state)]
+
+    # Display the first row of the filtered data (or an empty DataFrame if no match)
+    if not filtered_df.empty:
+        st.write(filtered_df.head(1))  # Show only one result
+    else:
+        st.write("No data found for the selected region and state.")
