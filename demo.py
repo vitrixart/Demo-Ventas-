@@ -28,9 +28,6 @@ try:
 
         # Display the chart in Streamlit
         st.plotly_chart(fig)
-        # Assuming df is your DataFrame and it's already loaded
-# Replace this with your actual data loading code if needed
-try:
     df = pd.read_excel("SalidaFinal.xlsx", engine='openpyxl')
 except FileNotFoundError:
     st.error("Error: 'SalidaFinal.xlsx' not found. Please check the file path.")
