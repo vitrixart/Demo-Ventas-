@@ -32,8 +32,7 @@ try:
 
 # Assuming 'Region' and 'State' are column names in your DataFrame.
 # Replace with your actual column names if different.
-if 'Region' in df.columns and 'State' in df.columns:
-    region_filter = st.selectbox("Select Region", df['Region'].unique())
+if 'Region' in df.columns and 'State' in df.columns:region_filter = st.selectbox("Select Region", df['Region'].unique())
     filtered_df_region = df[df['Region'] == region_filter]
 
     state_filter = st.selectbox("Select State", filtered_df_region['State'].unique())
