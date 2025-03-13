@@ -20,13 +20,11 @@ try:
     df = pd.read_excel("SalidaFinal.xlsx", engine='openpyxl')
 
     # Check if 'Region' and 'Ventas' columns exist
-    if 'Region' not in df.columns or 'Sales' not in df.columns:
-        st.error("Error: The DataFrame does not contain 'Region' and/or 'Sales' columns.")
+    if 'Region' not in df.columns or 'Ventas' not in df.columns:
+        st.error("Error: The DataFrame does not contain 'Region' and/or 'Ventas' columns.")
     else:
         # Create the bar chart using Plotly Express
-        fig = px.bar(df, x='Region', y='Sales', title='Ventas por Región')
+        fig = px.bar(df, x='Region', y='Ventas', title='Ventas por Región')
 
         # Display the chart in Streamlit
-        st.plotly_chart(fig)
-        fig = px.pie(df_final, names='Category', title='Category Distribution')
         st.plotly_chart(fig)
