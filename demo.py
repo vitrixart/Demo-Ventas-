@@ -22,7 +22,7 @@ try:
     # Check if 'Region' and 'Ventas' columns exist
     if 'Region' not in df.columns or 'Ventas' not in df.columns:
         st.error("Error: The DataFrame does not contain 'Region' and/or 'Ventas' columns.")
-    else:
+else:
 # Create the bar chart using Plotly Express
 fig = px.bar(df, x='Region', y='Ventas', title='Ventas por Región')
 
