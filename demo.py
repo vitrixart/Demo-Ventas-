@@ -28,7 +28,15 @@ try:
 
         # Display the chart in Streamlit
         st.plotly_chart(fig)
-# Create filters for 'Region' and 'State'
+        import pandas as pd
+import streamlit as st
+
+# Assuming the file is in the current working directory.
+# If not, provide the full path to the file.
+try:
+    df = pd.read_excel("SalidaFinal.xlsx", engine='openpyxl')
+
+    # Create filters for 'Region' and 'State'
     selected_region = st.selectbox('Select Region', df['Region'].unique())
     selected_state = st.selectbox('Select State', df['State'].unique())
 
